@@ -4,55 +4,48 @@ from constants import *
 from dataclasses import dataclass
 from math import floor
 
+from gui_settings import window_settings
+
 class Main():
     """Main window of the program, handles events, and all input"""
-    def __init__(self, screen_width: int, screen_height: int):
-        """_summary_
 
-        Args:
-            screen_width (int): The width of the pygame window
-            screen_height (int): The height of the pygame window
+    def _event_loop(self):
+        for event in py.event.get():
+            if event.type == py.QUIT: self._running = False
+            if event.type == py.MOUSEBUTTONDOWN: pass
+
+    def _draw_loop(self):
+        self._surface.fill(BLACK)
+        for func in self._draw_functions:
+            func()
+        py.display.flip()
+
+    def start(self):
+        while self._running:
+            self._event_loop()
+            self._draw_loop()
+            self._clock.tick(60)
+        py.quit()
+
+    def __init__(self):
+        """_summary_
         """
         # Initalize
         py.init()
         py.display.set_caption("TabSnake")
 
         # Class Variables
-        self.surface = py.display.set_mode((screen_width, screen_height), flags=py.RESIZABLE)
-        self.clock = py.time.Clock()
-        self.draw_functions = list()
+        self._running = True
+        self._surface = py.display.set_mode((window_settings.width, window_settings.height), flags=py.RESIZABLE)
+        self._clock = py.time.Clock()
+        self._draw_functions = list()
 
-    def add_draw(self, draw_function):
-        self.draw_functions.append(draw_function)
+    @property
+    def surface(self):
+        return self._surface
 
-    def start(self):
-        running = True
-        while running:
-
-            # Event Loop
-            for event in py.event.get():
-                # Allows the user to quit the program
-                if event.type == py.QUIT:
-                    running = False
-
-                # Detects user input
-                if event.type == py.MOUSEBUTTONDOWN:
-                    pass
-        
-            #clear the screen
-            self.surface.fill(BLACK)
-
-            #draw functions
-            for func in self.draw_functions:
-                func()
-        
-            # flip() updates the screen to make our changes visible
-            py.display.flip()
-            
-            # how many updates per second
-            self.clock.tick(60)
-
-        py.quit()
+    def add_draw_function(self, draw_function):
+        self._draw_functions.append(draw_function)
 
 class TabStaff():
 

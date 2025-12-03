@@ -1,9 +1,7 @@
 import pygame as py
+from pygame import Surface
 from constants import *
-from frames import Main, TabStaff
+from gui import Main, TabStaff
 
-root = Main(screen_width=700, screen_height=500)
-tab = TabStaff(root)
-root.add_draw(tab.draw_staff)
-
+root = Main()
 root.start()
