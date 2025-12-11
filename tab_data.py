@@ -1,4 +1,17 @@
 from dataclasses import dataclass
+from enum import IntEnum
+
+class NoteDurations(IntEnum):
+    WHOLE = 0
+    HALF = 1
+    QUARTER = 2
+    EIGHTH = 3
+    SIXTENTH = 4
+    TRIPLE = 5
+
+@dataclass
+class TabStaff():
+    pass
 
 @dataclass
 class TabNote():
