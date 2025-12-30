@@ -1,7 +1,7 @@
 import pygame as py
 from pygame import Surface
-from constants import *
-from gui_settings import WindowGui, GuitarTabGui, GuitarTabLineGui
+from color_pallet import *
+from gui_settings import *
 from math import floor
 
 class GuitarTab():
@@ -17,7 +17,7 @@ class GuitarTab():
         py.draw.rect(self._surface, "purple", self._rect)
 
     def update(self, y_delta: int):
-        self._rect.move_ip(0, y_delta*20)
+        self._rect.move_ip(0, y_delta*SCROLL_FACTOR)
 
 def pygame_quit():
     py.quit()

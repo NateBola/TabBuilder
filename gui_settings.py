@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-from constants import *
 from typing import NamedTuple
+from color_pallet import *
+
 
 @dataclass
 class WindowGui():
@@ -24,3 +25,5 @@ class GuitarTabGui():
     rect_start = WindowGui.width * 1/20
     rect_width = WindowGui.width * 18/20
     rect_height = GuitarTabLineGui.line_spacing * (GuitarTabLineGui.line_count + 1)
+
+SCROLL_FACTOR = 20
