@@ -1,52 +1,23 @@
 import pygame as py
 from pygame import Surface
 from constants import *
-from gui_settings import window_settings, tab_setting
+from gui_settings import WindowGui, GuitarTabGui, GuitarTabLineGui
 from math import floor
 
-# Global Variables
-main_surface = py.display.set_mode((window_settings.width, window_settings.height), flags=py.RESIZABLE)
-main_clock = py.time.Clock()
+class GuitarTab():
 
-def pygame_event_loop():
-    for event in py.event.get():
-        if event.type == py.QUIT: pygame_quit()
-        if event.type == py.MOUSEBUTTONDOWN: pass
+    def __init__(self, surface: Surface, y_start_pos: int):
+        self._surface = surface
+        self._rect = py.Rect(
+            (GuitarTabGui.rect_start, y_start_pos),
+            (GuitarTabGui.rect_width, GuitarTabGui.rect_height)
+        )
 
-def pygame_draw_loop(main_surface: Surface):
+    def draw(self):
+        py.draw.rect(self._surface, "purple", self._rect)
 
-    def draw_tab_staff(surface: Surface):
-        screen_width, screen_height = py.display.get_window_size()
-        tab_width = screen_width - (2 * tab_setting.padx)
-        tab_height = tab_setting.line_height * 5
-        line_start = tab_setting.padx + tab_setting.line_padx
-        line_end = screen_width - tab_setting.padx - tab_setting.line_padx
-        rows = floor((screen_height - (2 * tab_setting.pady)) / (tab_height + tab_setting.pady))
-
-        tab_rect = py.rect.Rect(tab_setting.padx, 0, tab_width, tab_height)
-
-        tab_yloc = tab_setting.pady
-        for i in range(rows):
-        
-            tab_rect.top = tab_yloc
-            py.draw.rect(surface, tab_setting.color_bg, tab_rect)
-
-            line_yloc = tab_yloc + tab_setting.line_height/2
-            for i in range(5):
-                py.draw.line(
-                    surface,
-                    tab_setting.line_color,
-                    (line_start, line_yloc),
-                    (line_end, line_yloc),
-                    width=tab_setting.line_width
-                )
-                line_yloc += tab_setting.line_height
-
-            tab_yloc = tab_yloc + tab_height + tab_setting.pady
-
-    main_surface.fill(window_settings.color_bg)
-    draw_tab_staff(main_surface)
-    py.display.flip()
+    def update(self, y_delta: int):
+        self._rect.move_ip(0, y_delta*20)
 
 def pygame_quit():
     py.quit()
@@ -56,7 +27,36 @@ def pygame_quit():
 py.init()
 py.display.set_caption("TabSnake")
 
+# Pygame Variables
+MAIN_SURFACE = py.display.set_mode((WindowGui.width, WindowGui.height), flags=py.RESIZABLE)
+MAIN_CLOCK = py.time.Clock()
+
+# Variables
+guitar_tab_list = [
+    GuitarTab(MAIN_SURFACE, 20),
+    GuitarTab(MAIN_SURFACE, 110),
+    GuitarTab(MAIN_SURFACE, 200),
+]
+
 while True:
-    pygame_event_loop()
-    pygame_draw_loop(main_surface)
-    main_clock.tick(60)
+
+    # Event Loop
+    for event in py.event.get():
+        # Event, Handles Quiting
+        if event.type == py.QUIT: pygame_quit()
+
+        # Event, User click
+        if event.type == py.MOUSEBUTTONDOWN: pass
+
+        # Event, User Scroll
+        if event.type == py.MOUSEWHEEL:
+            for gui_element in guitar_tab_list: gui_element.update(event.y)
+
+    # Graphics Loops
+    MAIN_SURFACE.fill(WindowGui.color_bg)
+    for gui_element in guitar_tab_list: gui_element.draw()
+    py.display.flip()
+
+    # Tick Clock
+    MAIN_CLOCK.tick(60)
+    

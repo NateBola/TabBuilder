@@ -9,9 +9,8 @@ class NoteDurations(IntEnum):
     SIXTENTH = 4
     TRIPLE = 5
 
-@dataclass
-class TabStaff():
-    pass
+
+
 
 @dataclass
 class TabNote():
@@ -23,6 +22,7 @@ class TabNote():
     tab_fret: int
     tab_spacing: int
     tab_backset: int
+    tab_special: int
 
 # Example of an A5 power chord on the bottom E, A, and D strings
 note1 = TabNote(0, 5, 0, 0)
