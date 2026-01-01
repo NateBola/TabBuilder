@@ -16,17 +16,18 @@ class GuitarTab():
         self._line_rect_list = list()
 
     def draw(self):
-        py.draw.rect(self._surface, "white", self._rect)
+        py.draw.rect(self._surface, GuitarTabGui.rect_color, self._rect)
 
         y_pos = self._rect.top
-        for i in range(GuitarTabLineGui.line_count):
+        for i in range(GuitarTabGui.line_count):
             py.draw.line(
                 self._surface,
-                GuitarTabLineGui.line_color,
+                GuitarTabGui.line_color,
                 (self._rect.left, y_pos),
-                (self._rect.right, y_pos)
+                (self._rect.right, y_pos),
+                GuitarTabGui.line_width
             )
-            y_pos += GuitarTabLineGui.line_space
+            y_pos += GuitarTabGui.line_space
 
     def update(self, y_delta: int):
         self._rect.move_ip(0, y_delta*SCROLL_FACTOR)
@@ -44,11 +45,11 @@ MAIN_SURFACE = py.display.set_mode((WindowGui.width, WindowGui.height), flags=py
 MAIN_CLOCK = py.time.Clock()
 
 # Variables
-guitar_tab_list = [
-    GuitarTab(MAIN_SURFACE, 20),
-    GuitarTab(MAIN_SURFACE, 110),
-    GuitarTab(MAIN_SURFACE, 200),
-]
+start_height = GuitarTabGui.rect_padding
+guitar_tab_list = list()
+for i in range(3):
+    guitar_tab_list.append(GuitarTab(MAIN_SURFACE, start_height))
+    start_height += (GuitarTabGui.rect_height + GuitarTabGui.rect_padding)
 
 while True:
 

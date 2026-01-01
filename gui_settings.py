@@ -10,20 +10,17 @@ class WindowGui():
     color_bg: tuple[int] = (255, 255, 255)
 
 @dataclass
-class GuitarTabLineGui():
-    x_start = WindowGui.width * 1/20
-    x_width = WindowGui.width * 18/20
-
+class GuitarTabGui():
     line_width = 2
-    line_space = 10
+    line_space = 14
     line_count = 6
 
-    line_color: tuple[int] = "purple"
-
-@dataclass
-class GuitarTabGui():
     rect_start = WindowGui.width * 1/20
     rect_width = WindowGui.width * 18/20
-    rect_height = GuitarTabLineGui.line_space * (GuitarTabLineGui.line_count + 1)
+    rect_height = line_space * (line_count + 1)
+    rect_padding = 20
+
+    line_color: tuple[int] = "purple"
+    rect_color: tuple[int] = "white"
 
 SCROLL_FACTOR = 20
