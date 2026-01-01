@@ -13,8 +13,20 @@ class GuitarTab():
             (GuitarTabGui.rect_width, GuitarTabGui.rect_height)
         )
 
+        self._line_rect_list = list()
+
     def draw(self):
-        py.draw.rect(self._surface, "purple", self._rect)
+        py.draw.rect(self._surface, "white", self._rect)
+
+        y_pos = self._rect.top
+        for i in range(GuitarTabLineGui.line_count):
+            py.draw.line(
+                self._surface,
+                GuitarTabLineGui.line_color,
+                (self._rect.left, y_pos),
+                (self._rect.right, y_pos)
+            )
+            y_pos += GuitarTabLineGui.line_space
 
     def update(self, y_delta: int):
         self._rect.move_ip(0, y_delta*SCROLL_FACTOR)
